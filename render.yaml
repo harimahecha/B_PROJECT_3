@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: document-summary-assistant
+    env: python
+    region: oregon
+    buildCommand: |
+      apt-get update && apt-get install -y tesseract-ocr libtesseract-dev
+      export PATH=$PATH:/usr/bin
+      pip install -r requirements.txt
+    startCommand: "gunicorn run:app --bind 0.0.0.0:8000"
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
